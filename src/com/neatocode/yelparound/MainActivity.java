@@ -24,33 +24,13 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener {
 	
 	private static final String LOG_TAG = "SensorTest";
-
 	private TextView text;
-
 	private SensorManager mSensorManager;
-
-    //order doesn't matter here, move on
-    private Sensor mGravity;
-
 	private Sensor mAccelerometer;
-	
-	Float azimuth_angle;
+    private boolean flag;
+    private int count;
+    private long startTime, endTime, timeDiff, sumDiff, average;
 
-	Float pitch_angle;
-	
-	Float roll_angle;
-	
-	Double networkLat;
-	
-	Double networkLon;
-	
-	Double gpsLat;
-	
-	Double gpsLon;
-
-    boolean flag = false;
-
-    int count = 0;
 	
 	private static void removeBackgrounds(final View aView) {
 		aView.setBackgroundDrawable(null);
@@ -72,23 +52,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 		getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.activity_main);
-		
 		//removeBackgrounds(getWindow().getDecorView());
 
 		text = (TextView) findViewById(R.id.text);
 
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-		for(Sensor sensor : sensors) {
-			Log.i(LOG_TAG, "Found sensor: " + sensor.getName());
-		}
-
-        //order doesn't matter here, move on - also doesn't affect accel
-        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
+        flag = false;
+        count = 0; sumDiff = 0;
+        startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -116,20 +89,22 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-
         float accel_Y = 0;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             accel_Y = event.values[1] - 15;
         }
-
-    //increases compression count by 1 whenever accelY passes 0 threshold
+    //increases compression count by 1 whenever accel_Y passes 0 threshold
         if(accel_Y > 0 && flag == false) {
             count++;
             flag = true;
+            endTime = System.currentTimeMillis();
+            timeDiff = endTime - startTime;
+            startTime = endTime;
+            sumDiff += timeDiff;
+            average = sumDiff / (long)count;
         }
         if(accel_Y < -5){flag = false;}
-
-        text.setText("Accel Y: " + accel_Y + "\nCount: " + count);
+        text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
