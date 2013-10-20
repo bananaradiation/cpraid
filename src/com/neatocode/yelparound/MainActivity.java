@@ -1,6 +1,21 @@
 package com.neatocode.yelparound;
 
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import android.os.Environment;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,31 +40,26 @@ public class MainActivity extends Activity implements SensorEventListener,
 		LocationListener {
 	
 	private static final String LOG_TAG = "SensorTest";
-
 	private TextView text;
-
 	private TextView locationText;
-
 	private SensorManager mSensorManager;
-
 	private Sensor mOrientation;
-
+    private Sensor mAccelerometer;
+    private Sensor mGravity;
 	private LocationManager mLocationManager;
 	
 	Float azimuth_angle;
-
 	Float pitch_angle;
-	
 	Float roll_angle;
-	
 	Double networkLat;
-	
 	Double networkLon;
-	
 	Double gpsLat;
-	
 	Double gpsLon;
-	
+    File file;
+
+    float [] accelerometer;
+    float [] gravity;
+
 	private static void removeBackgrounds(final View aView) {
 		aView.setBackgroundDrawable(null);
 		aView.setBackgroundColor(Color.TRANSPARENT);
@@ -80,35 +90,21 @@ public class MainActivity extends Activity implements SensorEventListener,
 		locationText = (TextView) findViewById(R.id.location);
 
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-		for(Sensor sensor : sensors) {
-			Log.i(LOG_TAG, "Found sensor: " + sensor.getName());
-		}
-		
-		mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		List<String> providers = mLocationManager.getAllProviders();
-		for(String provider : providers ) {
-			Log.i(LOG_TAG, "Found provider: " + provider);
-		}
-		
-		
-		// getting GPS status
-		boolean isGPSEnabled = mLocationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        String a = "Found sensor: ";
+//		for(Sensor sensor : sensors) {
+//            a += sensor.getName() + "\n";
+//        }
+//        text.setText(a);
 
-		// getting network status
-		boolean isNetworkEnabled = mLocationManager
-				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//        File sdcard = Environment.getExternalStorageDirectory();
+//        file = new File(sdcard,"/my_file.txt");
 
-		locationText.setText("isGPSEnabled:" + isGPSEnabled
-				+ "\nisNetworkEnabled:" + isNetworkEnabled);
 
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				0, 0, this);
-		//mLocationManager.requestLocationUpdates(
-		//		LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+
+		//mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 	}
 
 	@Override
@@ -120,25 +116,34 @@ public class MainActivity extends Activity implements SensorEventListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mOrientation,
+		mSensorManager.registerListener(this, mAccelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mSensorManager.unregisterListener(this);
+
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		float azimuth_angle = event.values[0];
-		float pitch_angle = event.values[1];
-		float roll_angle = event.values[2];
+		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            accelerometer = new float[] { event.values[0], event.values[1], event.values[2] };
+        }
+//        if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+//            gravity = new float[] { event.values[0], event.values[1], event.values[2] };
+//        }
+
 		// Do something with these orientation angles.
-		text.setText("azimuth, pitch, roll, lat, lon:\n" + azimuth_angle + "\n"
-				+ pitch_angle + "\n" + roll_angle);
-	}
+		text.setText("accelerometer: \n" + accelerometer[0] + "gravity: \n"
+				+ gravity);
+
+    }
+
 
 	@Override
 	public void onLocationChanged(Location location) {
