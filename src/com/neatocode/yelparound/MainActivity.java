@@ -29,7 +29,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	private SensorManager mSensorManager;
 
-	private Sensor mAccelerometer, mGravity;
+    //order doesn't matter here, move on
+    private Sensor mGravity;
+
+	private Sensor mAccelerometer;
 	
 	Float azimuth_angle;
 
@@ -44,6 +47,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 	Double gpsLat;
 	
 	Double gpsLon;
+
+    boolean flag = false;
+
+    int count = 0;
 	
 	private static void removeBackgrounds(final View aView) {
 		aView.setBackgroundDrawable(null);
@@ -77,9 +84,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 		for(Sensor sensor : sensors) {
 			Log.i(LOG_TAG, "Found sensor: " + sensor.getName());
 		}
-		
-		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        //order doesn't matter here, move on - also doesn't affect accel
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 	}
 
@@ -92,10 +100,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+        //order doesn't matter here, move on
+//        mSensorManager.registerListener(this, mGravity,
+//                SensorManager.SENSOR_DELAY_NORMAL);
 		mSensorManager.registerListener(this, mAccelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mGravity,
-                SensorManager.SENSOR_DELAY_NORMAL);
+
 	}
 
 	@Override
@@ -107,24 +117,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 
-        float accelerometer1 = 0;
-        float accelerometer2 = 0;
-        float accelerometer3 = 0;
-        float gravity1 = 0;
-        float gravity2 = 0;
-        float gravity3 = 0;
-
+        float accel_Y = 0;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            accelerometer1 = event.values[0];
-            accelerometer2 = event.values[1];
-            accelerometer3 = event.values[2];
-        }else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-            gravity1 = event.values[0];
-            gravity2 = event.values[1];
-            gravity3 = event.values[2];
+            accel_Y = event.values[1] - 15;
         }
 
-        text.setText("Accel X: " + accelerometer1 +"\nAccel Y: " + accelerometer2 +"\nAccel Z: " + accelerometer3 + "\nGrav X: " + gravity1 +"\nGrav Y: " + gravity2 +"\nGrav Z: " + gravity3);
+    //increases compression count by 1 whenever accelY passes 0 threshold
+        if(accel_Y > 0 && flag == false) {
+            count++;
+            flag = true;
+        }
+        if(accel_Y < -5){flag = false;}
+
+        text.setText("Accel Y: " + accel_Y + "\nCount: " + count);
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
