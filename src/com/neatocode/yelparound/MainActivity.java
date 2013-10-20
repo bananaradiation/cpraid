@@ -21,20 +21,15 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements SensorEventListener,
-		LocationListener {
+public class MainActivity extends Activity implements SensorEventListener {
 	
 	private static final String LOG_TAG = "SensorTest";
 
 	private TextView text;
 
-	private TextView locationText;
-
 	private SensorManager mSensorManager;
 
-	private Sensor mOrientation;
-
-	private LocationManager mLocationManager;
+	private Sensor mAccelerometer, mGravity;
 	
 	Float azimuth_angle;
 
@@ -77,38 +72,15 @@ public class MainActivity extends Activity implements SensorEventListener,
 
 		text = (TextView) findViewById(R.id.text);
 
-		locationText = (TextView) findViewById(R.id.location);
-
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 		for(Sensor sensor : sensors) {
 			Log.i(LOG_TAG, "Found sensor: " + sensor.getName());
 		}
 		
-		mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		List<String> providers = mLocationManager.getAllProviders();
-		for(String provider : providers ) {
-			Log.i(LOG_TAG, "Found provider: " + provider);
-		}
-		
-		
-		// getting GPS status
-		boolean isGPSEnabled = mLocationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-		// getting network status
-		boolean isNetworkEnabled = mLocationManager
-				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-		locationText.setText("isGPSEnabled:" + isGPSEnabled
-				+ "\nisNetworkEnabled:" + isNetworkEnabled);
-
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				0, 0, this);
-		//mLocationManager.requestLocationUpdates(
-		//		LocationManager.NETWORK_PROVIDER, 0, 0, this);
 	}
 
 	@Override
@@ -120,8 +92,10 @@ public class MainActivity extends Activity implements SensorEventListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mOrientation,
+		mSensorManager.registerListener(this, mAccelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override
@@ -132,29 +106,27 @@ public class MainActivity extends Activity implements SensorEventListener,
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		float azimuth_angle = event.values[0];
-		float pitch_angle = event.values[1];
-		float roll_angle = event.values[2];
-		// Do something with these orientation angles.
-		text.setText("azimuth, pitch, roll, lat, lon:\n" + azimuth_angle + "\n"
-				+ pitch_angle + "\n" + roll_angle);
+
+        float accelerometer1 = 0;
+        float accelerometer2 = 0;
+        float accelerometer3 = 0;
+        float gravity1 = 0;
+        float gravity2 = 0;
+        float gravity3 = 0;
+
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            accelerometer1 = event.values[0];
+            accelerometer2 = event.values[1];
+            accelerometer3 = event.values[2];
+        }else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+            gravity1 = event.values[0];
+            gravity2 = event.values[1];
+            gravity3 = event.values[2];
+        }
+
+        text.setText("Accel X: " + accelerometer1 +"\nAccel Y: " + accelerometer2 +"\nAccel Z: " + accelerometer3 + "\nGrav X: " + gravity1 +"\nGrav Y: " + gravity2 +"\nGrav Z: " + gravity3);
 	}
 
-	@Override
-	public void onLocationChanged(Location location) {
-		locationText.setText(location.getLatitude() + "\n"
-				+ location.getLongitude());
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-	}
-
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
