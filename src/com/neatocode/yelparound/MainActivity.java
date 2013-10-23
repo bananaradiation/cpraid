@@ -31,14 +31,16 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-	private static final String LOG_TAG = "SensorTest";
-	private TextView start, countView, compressionRate, instruction, countText, rateStr;
-	private SensorManager mSensorManager;
     Intent switchToHelpScreenOne;
+
+    private static final String LOG_TAG = "SensorTest";
+    private TextView start, countView, compressionRate, instruction, countText, rateStr;
+    private SensorManager mSensorManager;
+
     private boolean pauseCount;
     private int count;
-    private long startTime, endTime, timeDiff, sumDiff, average, compressionPerMin = 0;
-    private float gravityY, gravityZ, accelY, accelZ, rawPitch = 0;
+    private long startTime, endTime, timeDiff, sumDiff, lcount = 0;
+    private float gravityY, gravityZ, accelY, accelZ, rawPitch, compressionPerMin = 0;
     private double calcPitch, vMot = 0;
 
     private GestureDetector mGestureDetector;

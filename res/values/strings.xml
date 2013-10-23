@@ -7,7 +7,11 @@
     <string name="rateStr">Rate</string>
     <string name="countVal">100</string>
     <string name="swipe">Swipe for instructions</string>
+    <string name="rescue">Provide 2 rescue breaths</string>
+    <string name="second">30 compressions at a rate of 100 per minute</string>
+    <string name="swipeB">Swipe to start CPR</string>
     <string name="CPR">Swipe to start CPR AID</string>
     <string name="rate">100</string>
+    <string name="swipe2">Swipe for next screen</string>
 
 </resources>
