@@ -29,9 +29,9 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements SensorEventListener {
-	
+
 	private static final String LOG_TAG = "SensorTest";
-	private TextView text, countView;
+	private TextView start, countView, compressionRate, instruction, countText, rateStr;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
     private boolean flag;
@@ -39,8 +39,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     private long startTime, endTime, timeDiff, sumDiff, compressionPerMin;
  //   private GestureDetector gestureDetector;
 
-
-	
 	private static void removeBackgrounds(final View aView) {
 		aView.setBackgroundDrawable(null);
 		aView.setBackgroundColor(Color.TRANSPARENT);
@@ -55,8 +53,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,18 +62,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 		setContentView(R.layout.activity_main);
 		//removeBackgrounds(getWindow().getDecorView());
 
-		text = (TextView) findViewById(R.id.text);
-        countView = (TextView) findViewById(R.id.textView);
+        start = (TextView) findViewById(R.id.start);
+        countText = (TextView) findViewById(R.id.countStr);
+        rateStr = (TextView) findViewById(R.id.rateStr);
+        compressionRate = (TextView) findViewById(R.id.rate);
+        countView = (TextView) findViewById(R.id.countVal);
+        instruction = (TextView) findViewById(R.id.instruction);
+
       	mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         flag = false;
         count = 0; sumDiff = 0;
         startTime = System.currentTimeMillis();
 	}
-
-
-
-
     @Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// Do something here if sensor accuracy changes.
@@ -120,14 +117,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
         if(accel_Y < -5){flag = false;}
         //text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
-
-        countView.setText(count);
+            //countView.setText(count);
         //TextView rateView = (TextView)findViewById(R.id.editText);
-
-
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
-
 }

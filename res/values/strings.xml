@@ -2,10 +2,12 @@
 <resources>
 
     <string name="app_name">CPR AID</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="start">START!</string>
+    <string name="countStr">Count</string>
+    <string name="rateStr">Rate</string>
+    <string name="countVal">0</string>
     <string name="count">Count</string>
-    <string name="countText">0</string>
-    <string name="RateText">la</string>
+
+    <string name="swipe">Swipe for instructions</string>
 
 </resources>

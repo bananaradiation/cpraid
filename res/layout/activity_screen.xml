@@ -21,7 +21,7 @@
             android:layout_width="382dp"
             android:layout_height="120dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Swipe to start CPR"
+            android:text="Swipe to start CPR AID"
             android:id="@+id/textView"
             android:editable="false"
             android:gravity="center|center_vertical|center_horizontal|top"

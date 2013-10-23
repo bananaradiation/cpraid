@@ -33,10 +33,14 @@ import android.widget.Toast;
 /**
  * Created by NarineC on 10/22/13.
  */
+
+
+
+
 public class MainScreen extends Activity {
    // private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
     //private MotionEvent mGetEvent;
-
+    Intent switchToMainActivity;
 
   //  controlls getControll = new controlls();
 
@@ -49,7 +53,7 @@ public class MainScreen extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_screen);
-
+        switchToMainActivity = new Intent(this, MainActivity.class);
        // checkGesture();
      //  if(getControll.onSingleTapUp(mGetEvent))
        // {
@@ -70,7 +74,6 @@ public class MainScreen extends Activity {
         switch (keyCode) {
             // Handle tap events.
             case KeyEvent.KEYCODE_DPAD_CENTER:
-                setContentView(R.layout.activity_main);
               //  startActivity(new Intent(this, MainActivity.class));
                 //  count = 5000;
             case KeyEvent.KEYCODE_ENTER:
@@ -79,8 +82,8 @@ public class MainScreen extends Activity {
                 //  toggleStopWatch();
                 return true;
             default:
-                setContentView(R.layout.activity_main);
-             //   startActivity(new Intent(this, MainActivity.class));
+                startActivity(switchToMainActivity);
+                //setContentView(R.layout.activity_main);
                 return super.onKeyDown(keyCode, event);
         }
     }
