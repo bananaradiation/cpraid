@@ -113,12 +113,11 @@ public class MainActivity extends Activity implements SensorEventListener {
             startTime = endTime;
             sumDiff += timeDiff;
             compressionPerMin = (count / (long)sumDiff) * 1000 * 60;
-
+            //compressionRate.setText(Double.toString(compressionPerMin));
         }
         if(accel_Y < -5){flag = false;}
         //text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
             //countView.setText(count);
-        //TextView rateView = (TextView)findViewById(R.id.editText);
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
