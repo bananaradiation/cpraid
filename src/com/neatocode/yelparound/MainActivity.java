@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private Sensor mAccelerometer;
     private boolean flag;
     private int count;
-    private long startTime, endTime, timeDiff, sumDiff, average;
+    private long startTime, endTime, timeDiff, sumDiff, compressionPerMin;
  //   private GestureDetector gestureDetector;
 
 
@@ -115,7 +115,8 @@ public class MainActivity extends Activity implements SensorEventListener {
             timeDiff = endTime - startTime;
             startTime = endTime;
             sumDiff += timeDiff;
-            average = sumDiff / (long)count;
+            compressionPerMin = (count / (long)sumDiff) * 1000 * 60;
+
         }
         if(accel_Y < -5){flag = false;}
         //text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
