@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float gravityY, gravityZ, accelY, accelZ, rawPitch = 0;
     private double calcPitch, vMot = 0;
 
- //   private GestureDetector gestureDetector;
+    private GestureDetector mGestureDetector;
 
 	private static void removeBackgrounds(final View aView) {
 		aView.setBackgroundDrawable(null);
@@ -65,6 +65,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		setContentView(R.layout.activity_main);
 		//removeBackgrounds(getWindow().getDecorView());
 
+        mGestureDetector = new GestureDetector(this, new Controls());
+
         start = (TextView) findViewById(R.id.start);
         countText = (TextView) findViewById(R.id.countStr);
         rateStr = (TextView) findViewById(R.id.rateStr);
@@ -79,6 +81,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         sumDiff = 0;
         startTime = System.currentTimeMillis();
 	}
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
     @Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// Do something here if sensor accuracy changes.

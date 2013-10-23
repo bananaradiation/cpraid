@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 
 public class MainScreen extends Activity {
-   // private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
+   private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
     //private MotionEvent mGetEvent;
     Intent switchToMainActivity;
 
