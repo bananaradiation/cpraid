@@ -25,6 +25,14 @@
              android:name=".MainActivity"
              android:label="@string/app_name">
         </activity>
+        <activity
+                android:name=".HelpScreenOne"
+                android:label="@string/app_name">
+        </activity>
+        <activity
+                android:name=".HelpScreenTwo"
+                android:label="@string/app_name">
+        </activity>
     </application>
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    
