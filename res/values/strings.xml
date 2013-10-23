@@ -6,8 +6,8 @@
     <string name="countStr">Count</string>
     <string name="rateStr">Rate</string>
     <string name="countVal">100</string>
-    <string name="count">Count</string>
     <string name="swipe">Swipe for instructions</string>
     <string name="CPR">Swipe to start CPR AID</string>
+    <string name="rate">100</string>
 
 </resources>
