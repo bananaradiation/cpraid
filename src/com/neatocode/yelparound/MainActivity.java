@@ -94,7 +94,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
-
 	}
 
 	@Override
@@ -146,16 +145,14 @@ public class MainActivity extends Activity implements SensorEventListener {
             timeDiff = endTime - startTime;
             startTime = endTime;
             sumDiff += timeDiff;
-            compressionPerMin = (count / (long)sumDiff) * 1000 * 60;
-<<<<<<< HEAD
-            //compressionRate.setText(Double.toString(compressionPerMin));
-=======
->>>>>>> e43b244d6ff4e87a70650613d3262b77beea915b
+            compressionPerMin = (count / sumDiff) * 1000 * 60;
+
         }
         if(vMot < -5){pauseCount = false;}
         //text.setText("Pitch: " + calcPitch + "\nvMot: " + vMot + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
         //text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
-            //countView.setText(count);
+            countView.setText(Integer.toString(count));
+            compressionRate.setText(Double.toString(compressionPerMin));
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
