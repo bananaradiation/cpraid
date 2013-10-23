@@ -145,14 +145,14 @@ public class MainActivity extends Activity implements SensorEventListener {
             timeDiff = endTime - startTime;
             startTime = endTime;
             sumDiff += timeDiff;
-            compressionPerMin = (count / sumDiff) * 1000 * 60;
-
+            compressionPerMin = ((long)count / sumDiff) * 1000 * 60;
         }
-        if(vMot < -5){pauseCount = false;}
+        if(vMot < -5 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
         //text.setText("Pitch: " + calcPitch + "\nvMot: " + vMot + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
         //text.setText("Accel Y: " + accel_Y + "\nCount: " + count + "\nTime Diff: " + timeDiff + "\nAverage: " + average );
             countView.setText(Integer.toString(count));
-            compressionRate.setText(Double.toString(compressionPerMin));
+            compressionRate.setText(Long.toString(compressionPerMin));
+
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
