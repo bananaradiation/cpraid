@@ -49,25 +49,10 @@ public class MainScreen extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-      //  mGestureDetector = new GestureDetector(this, new controlls());
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_screen);
         switchToMainActivity = new Intent(this, MainActivity.class);
-       // checkGesture();
-     //  if(getControll.onSingleTapUp(mGetEvent))
-       // {
-      //      setContentView(R.layout.activity_main);
-      ///  }
-
-    }
-
-
-   /// @Override
-   // public boolean onGenericMotionEvent(MotionEvent event) {
-   //     mGestureDetector.onTouchEvent(event);
-   //     return true;
-  ///  }
+}
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -90,16 +75,11 @@ public class MainScreen extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
     }
-
-
-
 }
 
