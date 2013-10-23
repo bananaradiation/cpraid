@@ -36,8 +36,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private boolean pauseCount;
     private int count;
-    private long startTime, endTime, timeDiff, sumDiff, average, compressionPerMin = 0;
-    private float gravityY, gravityZ, accelY, accelZ, rawPitch = 0;
+    private long startTime, endTime, timeDiff, sumDiff, lcount = 0;
+    private float gravityY, gravityZ, accelY, accelZ, rawPitch, compressionPerMin = 0;
     private double calcPitch, vMot = 0;
 
  //   private GestureDetector gestureDetector;
@@ -145,7 +145,8 @@ public class MainActivity extends Activity implements SensorEventListener {
             timeDiff = endTime - startTime;
             startTime = endTime;
             sumDiff += timeDiff;
-            compressionPerMin = ((long)count / sumDiff) * 1000 * 60;
+            lcount = (long)count;
+            compressionPerMin = (((float)lcount / (float)sumDiff) * 1000 * 60);
         }
         if (count >=2) {start.setVisibility(TextView.INVISIBLE);}
         if(vMot < -5 && System.currentTimeMillis()-endTime > 150){pauseCount = false;}
@@ -156,7 +157,7 @@ public class MainActivity extends Activity implements SensorEventListener {
              compressionRate.setTextColor(Color.RED);}
          else
              compressionRate.setTextColor(Color.GREEN);
-         compressionRate.setText(Long.toString(compressionPerMin));
+         compressionRate.setText(String.valueOf(compressionPerMin));
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
