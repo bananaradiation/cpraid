@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -33,28 +34,28 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private static final String LOG_TAG = "SensorTest";
 	private TextView start, countView, compressionRate, instruction, countText, rateStr;
 	private SensorManager mSensorManager;
-
+    Intent switchToHelpScreenOne;
     private boolean pauseCount;
     private int count;
-    private long startTime, endTime, timeDiff, sumDiff, lcount = 0;
-    private float gravityY, gravityZ, accelY, accelZ, rawPitch, compressionPerMin = 0;
+    private long startTime, endTime, timeDiff, sumDiff, average, compressionPerMin = 0;
+    private float gravityY, gravityZ, accelY, accelZ, rawPitch = 0;
     private double calcPitch, vMot = 0;
 
     private GestureDetector mGestureDetector;
 
-	private static void removeBackgrounds(final View aView) {
-		aView.setBackgroundDrawable(null);
-		aView.setBackgroundColor(Color.TRANSPARENT);
-		aView.setBackgroundResource(0);
-		if (aView instanceof ViewGroup) {
-			final ViewGroup group = (ViewGroup) aView;
-			final int childCount = group.getChildCount();
-			for(int i = 0; i < childCount; i++) {
-				final View child = group.getChildAt(i);
-				removeBackgrounds(child);
-			}
-		}
-	}
+        private static void removeBackgrounds(final View aView) {
+                aView.setBackgroundDrawable(null);
+                aView.setBackgroundColor(Color.TRANSPARENT);
+                aView.setBackgroundResource(0);
+                if (aView instanceof ViewGroup) {
+                        final ViewGroup group = (ViewGroup) aView;
+                        final int childCount = group.getChildCount();
+                        for(int i = 0; i < childCount; i++) {
+                                final View child = group.getChildAt(i);
+                                removeBackgrounds(child);
+                        }
+                }
+        }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
 		//removeBackgrounds(getWindow().getDecorView());
-
-        mGestureDetector = new GestureDetector(this, new Controls());
-
+		mGestureDetector = new GestureDetector(this, new Controls());
+        switchToHelpScreenOne = new Intent(this, HelpScreenOne.class);
         start = (TextView) findViewById(R.id.start);
         countText = (TextView) findViewById(R.id.countStr);
         rateStr = (TextView) findViewById(R.id.rateStr);
@@ -81,13 +81,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         sumDiff = 0;
         startTime = System.currentTimeMillis();
 	}
-
-    @Override
+    
+	 @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
         return true;
     }
-    @Override
+	
+	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// Do something here if sensor accuracy changes.
 		// You must implement this callback in your code.
@@ -102,7 +103,26 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
+
 	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            // Handle tap events.
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                //  startActivity(new Intent(this, MainActivity.class));
+                //  count = 5000;
+            case KeyEvent.KEYCODE_ENTER:
+                //count = 0000;
+                //  setContentView(R.layout.activity_main);
+                //  toggleStopWatch();
+                return true;
+            default:
+                startActivity(switchToHelpScreenOne);
+                //setContentView(R.layout.activity_main);
+                return super.onKeyDown(keyCode, event);
+        }
+    }
 
 	@Override
 	protected void onPause() {
@@ -145,7 +165,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }else{
             vMot = Math.cos(calcPitch)*(accelY-gravityY) + Math.cos(calcPitch)*(accelZ-gravityZ);
         }
-    //increases compression count by 1 whenever accel_Y passes 0 threshold
+ //increases compression count by 1 whenever accel_Y passes 0 threshold
         if(vMot > 5 && !pauseCount) {
             count++;
             pauseCount = true;
@@ -166,8 +186,8 @@ public class MainActivity extends Activity implements SensorEventListener {
          else
              compressionRate.setTextColor(Color.GREEN);
          compressionRate.setText(String.valueOf(compressionPerMin));
-	}
+        }
 
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
 }
