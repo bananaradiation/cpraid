@@ -7,31 +7,14 @@
               android:background="#010101">
 
     <ImageView
-            android:layout_width="147dp"
-            android:layout_height="141dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:background="@drawable/carina2"
+            android:background="@drawable/logo"
             android:layout_marginRight="34dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_marginLeft="-92dp"
             android:contentDescription="logo"/>
-
-    <TextView
-            android:layout_width="382dp"
-            android:layout_height="46dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/CPR"
-            android:id="@+id/textView"
-            android:editable="false"
-            android:gravity="center|center_vertical|center_horizontal|top"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:layout_weight="0.58"
-            android:layout_marginTop="-2dp"
-            android:inputType="textImeMultiLine|textMultiLine"
-            android:singleLine="false"
-            android:textColor="#ffffff"
-            android:layout_gravity="left|center_vertical" android:focusableInTouchMode="false"/>
 
 </LinearLayout>

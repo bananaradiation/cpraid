@@ -8,20 +8,12 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.KeyEvent;
 import android.view.GestureDetector;
-
-/**
- * Created by NarineC on 10/22/13.
- */
-
-
-
+import android.view.MotionEvent;
 
 public class MainScreen extends Activity {
-   private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
+    private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
     //private MotionEvent mGetEvent;
     Intent switchToMainActivity;
-
-  //  controlls getControll = new controlls();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +23,13 @@ public class MainScreen extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_screen);
         switchToMainActivity = new Intent(this, MainActivity.class);
+        mGestureDetector = new GestureDetector(this, new Controls());
 }
-
+//    @Override
+//    public boolean onGenericMotionEvent(MotionEvent event) {
+//        mGestureDetector.onTouchEvent(event);
+//        return true;
+//    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
