@@ -17,10 +17,13 @@ import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
     Intent switchToHelpScreenOne;
+    AudioManager notify;
 
     private static final String LOG_TAG = "SensorTest";
     private TextView start, countView, compressionRate, instruction, countText, rateStr;
@@ -32,6 +35,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float gravityY, gravityZ, accelY, accelZ, rawPitch, compressionPerMin = 0;
     private double calcPitch, vMot = 0;
 
+
+    private MediaPlayer mp;
     private GestureDetector mGestureDetector;
 
         private static void removeBackgrounds(final View aView) {
@@ -64,6 +69,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         compressionRate = (TextView) findViewById(R.id.rate);
         countView = (TextView) findViewById(R.id.countVal);
         instruction = (TextView) findViewById(R.id.instruction);
+
+        mp = MediaPlayer.create(this, R.raw.sound1);
+        mp.setVolume(1.0f, 1.0f);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -156,7 +164,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }else{
             vMot = Math.cos(calcPitch)*(accelY-gravityY) + Math.cos(calcPitch)*(accelZ-gravityZ);
         }
- //increases compression count by 1 whenever accel_Y passes 0 threshold
+ //increases compression count by 1 whenever accel_Y passes threshold
         if(vMot > 5 && !pauseCount) {
             count++;
             pauseCount = true;
@@ -168,7 +176,8 @@ public class MainActivity extends Activity implements SensorEventListener {
             compressionPerMin = (((float)lcount / (float)sumDiff) * 1000 * 60);
         }
         if (count >=2) {start.setVisibility(TextView.INVISIBLE);}
-        if(vMot < -5 && System.currentTimeMillis()-endTime > 150){pauseCount = false;}
+        if (count == 30) {count = 0; mp.start();}
+        if(vMot < -5 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
             countView.setText(Integer.toString(count));
         if (compressionPerMin < 95 || compressionPerMin > 105) {
             compressionRate.setTextColor(Color.RED);}

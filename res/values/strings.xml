@@ -12,7 +12,7 @@
     <string name="swipeB">Swipe to start CPR</string>
     <string name="CPR">Swipe to start CPR AID</string>
     <string name="rate">100</string>
-    <string name="swipe2">Click for next screen</string>
-    <string name="swipe3">Click for main screen</string>
+    <string name="swipe2">Swipe for next screen</string>
+    <string name="swipe3">Swipe for main screen</string>
 
 </resources>

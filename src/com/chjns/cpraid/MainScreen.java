@@ -24,7 +24,7 @@ public class MainScreen extends Activity {
         setContentView(R.layout.activity_screen);
         switchToMainActivity = new Intent(this, MainActivity.class);
         mGestureDetector = new GestureDetector(this, new Controls());
-}
+    }
 //    @Override
 //    public boolean onGenericMotionEvent(MotionEvent event) {
 //        mGestureDetector.onTouchEvent(event);
