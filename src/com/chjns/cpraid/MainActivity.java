@@ -177,7 +177,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
         if (count >=2) {start.setVisibility(TextView.INVISIBLE);}
         if (count == 30) {count = 0; mp.start();}
-        if(vMot < -5 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
+        if(vMot < -8 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
             countView.setText(Integer.toString(count));
         if (compressionPerMin < 95 || compressionPerMin > 105) {
             compressionRate.setTextColor(Color.RED);}
