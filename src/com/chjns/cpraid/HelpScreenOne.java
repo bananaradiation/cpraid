@@ -7,9 +7,6 @@ import android.view.WindowManager;
 import android.app.Activity;
 import android.view.KeyEvent;
 
-/**
- * Created by NarineC on 10/22/13.
- */
 public class HelpScreenOne extends Activity {
 
     Intent switchToHelpScreenTwo;
@@ -26,18 +23,12 @@ public class HelpScreenOne extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            // Handle tap events.
             case KeyEvent.KEYCODE_DPAD_CENTER:
-                //  startActivity(new Intent(this, MainActivity.class));
-                //  count = 5000;
+                return true;
             case KeyEvent.KEYCODE_ENTER:
-                //count = 0000;
-                //  setContentView(R.layout.activity_main);
-                //  toggleStopWatch();
                 return true;
             default:
                 startActivity(switchToHelpScreenTwo);
-                //setContentView(R.layout.activity_main);
                 return super.onKeyDown(keyCode, event);
         }
     }
@@ -50,13 +41,10 @@ public class HelpScreenOne extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
     protected void onStop() {
-
         super.onStop();
     }
-
 }

@@ -5,13 +5,13 @@
     <string name="start">START!</string>
     <string name="countStr">Count</string>
     <string name="rateStr">Rate</string>
-    <string name="countVal">30</string>
+    <string name="countVal">0</string>
     <string name="swipe">Click for instructions</string>
     <string name="rescue">Provide 2 rescue breaths</string>
     <string name="second">30 compressions at a rate of 100 per minute</string>
     <string name="swipeB">Swipe to start CPR</string>
     <string name="CPR">Swipe to start CPR AID</string>
-    <string name="rate">100</string>
+    <string name="rate">0.0</string>
     <string name="swipe2">Swipe for next screen</string>
     <string name="swipe3">Swipe for main screen</string>
 

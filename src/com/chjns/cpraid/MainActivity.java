@@ -17,13 +17,11 @@ import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
     Intent switchToHelpScreenOne;
-    AudioManager notify;
 
     private static final String LOG_TAG = "SensorTest";
     private TextView start, countView, compressionRate, instruction, countText, rateStr;
@@ -60,7 +58,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
-		//removeBackgrounds(getWindow().getDecorView());
 		mGestureDetector = new GestureDetector(this, new Controls());
         switchToHelpScreenOne = new Intent(this, HelpScreenOne.class);
         start = (TextView) findViewById(R.id.start);
@@ -168,15 +165,19 @@ public class MainActivity extends Activity implements SensorEventListener {
         if(vMot > 5 && !pauseCount) {
             count++;
             pauseCount = true;
+            if (count == 1) {
+                startTime = System.currentTimeMillis(); }
+            else {
             endTime = System.currentTimeMillis();
             timeDiff = endTime - startTime;
             startTime = endTime;
             sumDiff += timeDiff;
             lcount = (long)count;
             compressionPerMin = (((float)lcount / (float)sumDiff) * 1000 * 60);
+            }
         }
         if (count >=2) {start.setVisibility(TextView.INVISIBLE);}
-        if (count == 30) {count = 0; mp.start();}
+        if (count > 10) {count = 0; sumDiff = 0; compressionPerMin = 0; mp.start();}
         if(vMot < -8 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
             countView.setText(Integer.toString(count));
         if (compressionPerMin < 95 || compressionPerMin > 105) {

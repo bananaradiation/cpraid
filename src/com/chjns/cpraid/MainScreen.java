@@ -7,12 +7,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.KeyEvent;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 
 public class MainScreen extends Activity {
-    private GestureDetector mGestureDetector; //for implementing gestures to work with Glass
-    //private MotionEvent mGetEvent;
+    //private GestureDetector mGestureDetector;
     Intent switchToMainActivity;
 
     @Override
@@ -23,7 +20,7 @@ public class MainScreen extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_screen);
         switchToMainActivity = new Intent(this, MainActivity.class);
-        mGestureDetector = new GestureDetector(this, new Controls());
+        //mGestureDetector = new GestureDetector(this, new Controls());
     }
 //    @Override
 //    public boolean onGenericMotionEvent(MotionEvent event) {
@@ -33,18 +30,12 @@ public class MainScreen extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            // Handle tap events.
             case KeyEvent.KEYCODE_DPAD_CENTER:
-              //  startActivity(new Intent(this, MainActivity.class));
-                //  count = 5000;
+                return true;
             case KeyEvent.KEYCODE_ENTER:
-                //count = 0000;
-              //  setContentView(R.layout.activity_main);
-                //  toggleStopWatch();
                 return true;
             default:
                 startActivity(switchToMainActivity);
-                //setContentView(R.layout.activity_main);
                 return super.onKeyDown(keyCode, event);
         }
     }
