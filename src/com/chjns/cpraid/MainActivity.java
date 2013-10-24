@@ -177,7 +177,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         }
         if (count >=2) {start.setVisibility(TextView.INVISIBLE);}
-        if (count > 10) {count = 0; sumDiff = 0; compressionPerMin = 0; mp.start();}
+        if (count > 30) {count = 0; sumDiff = 0; compressionPerMin = 0; mp.start();}
         if(vMot < -8 && System.currentTimeMillis()-endTime > 250){pauseCount = false;}
             countView.setText(Integer.toString(count));
         if (compressionPerMin < 95 || compressionPerMin > 105) {
